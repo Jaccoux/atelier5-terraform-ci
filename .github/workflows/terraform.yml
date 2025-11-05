@@ -7,6 +7,12 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
 
+    # Ajout des variables d'environnement pour le job
+    env:
+      TF_VAR_container_name: ${{ secrets.TF_VAR_container_name }}
+      TF_VAR_external_port: ${{ secrets.TF_VAR_external_port }}
+      TF_VAR_nginx_tag: ${{ secrets.TF_VAR_nginx_tag }}
+
     steps:
       - name: 1. Checkout du code
         uses: actions/checkout@v4
@@ -23,11 +29,12 @@ jobs:
         run: terraform init
 
       - name: 5. Validation du plan
-        # Nous utilisons le fichier tfvars de l'exercice
-        run: terraform plan -var-file="terraform.tfvars"
+        # Plus besoin de -var-file, Terraform lit l'environnement
+        run: terraform plan
 
       - name: 6. Application
-        run: terraform apply -auto-approve -var-file="terraform.tfvars"
+        # Plus besoin de -var-file
+        run: terraform apply -auto-approve
 
       - name: 7. Bonus - Vérification Docker
         run: docker ps
