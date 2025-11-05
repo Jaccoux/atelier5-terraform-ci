@@ -1,0 +1,33 @@
+name: Terraform CI/CD
+
+on:
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout du code
+        uses: actions/checkout@v4
+
+      - name: 2. Installation de Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.13.5
+
+      - name: 3. Vérification du format
+        run: terraform fmt -check
+
+      - name: 4. Initialisation du projet
+        run: terraform init
+
+      - name: 5. Validation du plan
+        # Nous utilisons le fichier tfvars de l'exercice
+        run: terraform plan -var-file="terraform.tfvars"
+
+      - name: 6. Application
+        run: terraform apply -auto-approve -var-file="terraform.tfvars"
+
+      - name: 7. Bonus - Vérification Docker
+        run: docker ps

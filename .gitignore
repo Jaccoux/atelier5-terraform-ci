@@ -1,0 +1,14 @@
+# Fichiers d'état Terraform locaux (NE PAS COMMIT)
+terraform.tfstate
+terraform.tfstate.backup
+
+# Fichiers de plan binaires
+*.tfplan
+
+# Fichiers .tfvars (surtout s'ils contiennent des secrets)
+*.tfvars
+# (Pour cet exercice, nous allons commiter terraform.tfvars,
+# mais en entreprise, il serait dans .gitignore)
+
+# Dossiers Terraform
+.terraform/
